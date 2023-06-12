@@ -1,4 +1,4 @@
-package com.proyecto.personas.models.entity;
+package com.proyecto.personas.infraestructura.entidad;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Entity
 @Table(name="personas")
-public class Persona implements Serializable {
+public class PersonaEntity implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
@@ -34,20 +34,5 @@ public class Persona implements Serializable {
     @Column(name = "numero_celular")
     private String numeroCelular;
     private String email;
-
-    @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("Persona{");
-        sb.append("id=").append(id);
-        sb.append(", nombre='").append(nombre).append('\'');
-        sb.append(", apellidoPaterno='").append(apellidoPaterno).append('\'');
-        sb.append(", apellidoMaterno='").append(apellidoMaterno).append('\'');
-        sb.append(", fechaNacimiento='").append(fechaNacimiento).append('\'');
-        sb.append(", tipoDocumento='").append(tipoDocumento).append('\'');
-        sb.append(", numeroDocumento='").append(numeroDocumento).append('\'');
-        sb.append(", numeroCelular='").append(numeroCelular).append('\'');
-        sb.append(", email='").append(email).append('\'');
-        sb.append('}');
-        return sb.toString();
-    }
+    
 }
