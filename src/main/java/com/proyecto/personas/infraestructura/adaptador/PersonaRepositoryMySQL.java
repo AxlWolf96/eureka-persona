@@ -16,7 +16,7 @@ import java.util.Optional;
 public class PersonaRepositoryMySQL implements PersonaRepository {
 
     @Autowired
-    private PersonaCrudRepositoryMySQL personaCrudRepositoryMySQL;
+    private PersonaJpaRepositoryMySQL personaJpaRepositoryMySQL;
 
     @Autowired
     private PersonaMapper personaMapper;
@@ -25,13 +25,13 @@ public class PersonaRepositoryMySQL implements PersonaRepository {
     @Override
     @Transactional(readOnly = true)
     public List<Persona> findAll() {
-        return personaMapper.toPersonas(personaCrudRepositoryMySQL.findAll());
+        return personaMapper.toPersonas(personaJpaRepositoryMySQL.findAll());
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<Persona> findById(Long id) {
-        PersonaEntity persona = personaCrudRepositoryMySQL.findById(id).orElseThrow(
+        PersonaEntity persona = personaJpaRepositoryMySQL.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Recurso no encontrado")
         );
 
@@ -42,14 +42,14 @@ public class PersonaRepositoryMySQL implements PersonaRepository {
     @Transactional
     public Persona save(Persona persona) {
         PersonaEntity personaEntity = personaMapper.toPersonaEntity(persona);
-        return personaMapper.toPersona(personaCrudRepositoryMySQL.save(personaEntity));
+        return personaMapper.toPersona(personaJpaRepositoryMySQL.save(personaEntity));
     }
 
     @Override
     @Transactional
     public Persona update(Long id, Persona persona) {
 
-        PersonaEntity personaEntityDB = personaCrudRepositoryMySQL.findById(id).orElseThrow(
+        PersonaEntity personaEntityDB = personaJpaRepositoryMySQL.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Recurso no encontrado")
         );
 
@@ -64,15 +64,15 @@ public class PersonaRepositoryMySQL implements PersonaRepository {
         personaEntityDB.setNumeroCelular(personaEntityNew.getNumeroCelular());
         personaEntityDB.setEmail(personaEntityNew.getEmail());
 
-        return personaMapper.toPersona(personaCrudRepositoryMySQL.save(personaEntityDB));
+        return personaMapper.toPersona(personaJpaRepositoryMySQL.save(personaEntityDB));
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        PersonaEntity personaEntity = personaCrudRepositoryMySQL.findById(id).orElseThrow(
+        PersonaEntity personaEntity = personaJpaRepositoryMySQL.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Recurso no encontrado")
         );
-        personaCrudRepositoryMySQL.deleteById(personaEntity.getId());
+        personaJpaRepositoryMySQL.deleteById(personaEntity.getId());
     }
 }
